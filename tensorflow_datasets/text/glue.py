@@ -82,8 +82,7 @@ _MNLI_BASE_KWARGS = dict(
         journal={arXiv preprint arXiv:1508.05326},
         year={2015}
       }""",
-    url="http://www.nyu.edu/projects/bowman/multinli/",
-    train_shards=2)
+    url="http://www.nyu.edu/projects/bowman/multinli/")
 
 
 class GlueConfig(tfds.core.BuilderConfig):
@@ -98,7 +97,6 @@ class GlueConfig(tfds.core.BuilderConfig):
                citation,
                url,
                label_classes=None,
-               train_shards=1,
                process_label=lambda x: x,
                **kwargs):
     """BuilderConfig for GLUE.
@@ -116,22 +114,14 @@ class GlueConfig(tfds.core.BuilderConfig):
       label_classes: `list[string]`, the list of classes if the label is
         categorical. If not provided, then the label will be of type
         `tf.float32`.
-      train_shards: `int`, number of shards for the train data set
       process_label: `Function[string, any]`, function taking in the raw value
         of the label and processing it to the form required by the label feature
       **kwargs: keyword arguments forwarded to super.
     """
-    # Version history:
-    # 1.0.0: S3 (new shuffling, sharding and slicing mechanism).
-    # 0.0.2: Initial version.
     super(GlueConfig, self).__init__(
         version=tfds.core.Version(
-            "0.0.2", experiments={tfds.core.Experiment.S3: False}),
-        supported_versions=[
-            tfds.core.Version(
-                "1.0.0",
-                "New split API (https://tensorflow.org/datasets/splits)"),
-        ],
+            "1.0.0",
+            "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
     self.text_features = text_features
     self.label_column = label_column
@@ -140,7 +130,6 @@ class GlueConfig(tfds.core.BuilderConfig):
     self.data_dir = data_dir
     self.citation = citation
     self.url = url
-    self.train_shards = train_shards
     self.process_label = process_label
 
 
@@ -443,7 +432,6 @@ class Glue(tfds.core.GeneratorBasedBuilder):
       return [
           tfds.core.SplitGenerator(
               name=tfds.Split.TEST,
-              num_shards=1,
               gen_kwargs={
                   "data_file": data_file,
                   "split": "test",
@@ -463,7 +451,6 @@ class Glue(tfds.core.GeneratorBasedBuilder):
       mrpc_files = None
     train_split = tfds.core.SplitGenerator(
         name=tfds.Split.TRAIN,
-        num_shards=self.builder_config.train_shards,
         gen_kwargs={
             "data_file": os.path.join(data_dir or "", "train.tsv"),
             "split": "train",
@@ -495,7 +482,6 @@ class Glue(tfds.core.GeneratorBasedBuilder):
           train_split,
           tfds.core.SplitGenerator(
               name=tfds.Split.VALIDATION,
-              num_shards=1,
               gen_kwargs={
                   "data_file": os.path.join(data_dir or "", "dev.tsv"),
                   "split": "dev",
@@ -503,7 +489,6 @@ class Glue(tfds.core.GeneratorBasedBuilder):
               }),
           tfds.core.SplitGenerator(
               name=tfds.Split.TEST,
-              num_shards=1,
               gen_kwargs={
                   "data_file": os.path.join(data_dir or "", "test.tsv"),
                   "split": "test",
@@ -595,7 +580,6 @@ class Glue(tfds.core.GeneratorBasedBuilder):
 def _mnli_split_generator(name, data_dir, split, matched):
   return tfds.core.SplitGenerator(
       name=name,
-      num_shards=1,
       gen_kwargs={
           "data_file": os.path.join(
               data_dir,

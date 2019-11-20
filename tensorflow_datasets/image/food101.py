@@ -74,7 +74,6 @@ class Food101(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=4,
             gen_kwargs={
                 "data_dir_path": os.path.join(path, "food-101/images"),
             },

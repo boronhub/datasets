@@ -38,21 +38,15 @@ _CITATION = """\
 }
 """
 
-_NUM_SHARDS = 1
-
 _BASE_URL = "http://www.robots.ox.ac.uk/~vgg/data/pets/data"
 
 
 class OxfordIIITPet(tfds.core.GeneratorBasedBuilder):
   """Oxford-IIIT pet dataset."""
 
-  VERSION = tfds.core.Version("1.1.0",
-                              experiments={tfds.core.Experiment.S3: False})
-  SUPPORTED_VERSIONS = [
-      tfds.core.Version(
-          "3.0.0", ("New split API (https://tensorflow.org/datasets/splits);"
-                    "additon of segmentation_mask feature.")),
-  ]
+  VERSION = tfds.core.Version(
+      "3.0.0", ("New split API (https://tensorflow.org/datasets/splits);"
+                "additon of segmentation_mask feature."))
 
   def _info(self):
     return tfds.core.DatasetInfo(
@@ -89,7 +83,6 @@ class OxfordIIITPet(tfds.core.GeneratorBasedBuilder):
     # Setup train and test splits
     train_split = tfds.core.SplitGenerator(
         name="train",
-        num_shards=_NUM_SHARDS,
         gen_kwargs={
             "images_dir_path": images_path_dir,
             "annotations_dir_path": annotations_path_dir,
@@ -99,7 +92,6 @@ class OxfordIIITPet(tfds.core.GeneratorBasedBuilder):
         )
     test_split = tfds.core.SplitGenerator(
         name="test",
-        num_shards=_NUM_SHARDS,
         gen_kwargs={
             "images_dir_path": images_path_dir,
             "annotations_dir_path": annotations_path_dir,

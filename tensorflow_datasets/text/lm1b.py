@@ -79,12 +79,8 @@ class Lm1bConfig(tfds.core.BuilderConfig):
     """
     super(Lm1bConfig, self).__init__(
         version=tfds.core.Version(
-            version, experiments={tfds.core.Experiment.S3: False}),
-        supported_versions=[
-            tfds.core.Version(
-                "1.0.0",
-                "New split API (https://tensorflow.org/datasets/splits)"),
-        ],
+            "1.0.0",
+            "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
     self.text_encoder_config = (
         text_encoder_config or tfds.features.text.TextEncoderConfig())
@@ -165,11 +161,9 @@ class Lm1b(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=100,
             gen_kwargs={"files": train_files}),
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=50,
             gen_kwargs={"files": test_files}),
     ]
 

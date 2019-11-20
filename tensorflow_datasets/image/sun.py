@@ -138,11 +138,6 @@ def _process_image_file(
 class Sun397Config(tfds.core.BuilderConfig):
   """BuilderConfig for Sun 397 dataset."""
 
-  # Version history:
-  # 4.0.0: Pictures resized and compressed, new configs, using S3 features.
-  # 3.0.0: S3 with new hashing function (different shuffle).
-  # 2.0.0: S3 (new shuffling, sharding and slicing mechanism).
-
   def __init__(
       self, target_pixels=None, partition=None, quality=None, **kwargs):
     self._target_pixels = target_pixels
@@ -165,7 +160,7 @@ class Sun397Config(tfds.core.BuilderConfig):
 
 def _generate_builder_configs():
   """Return the BuilderConfig objects for the SUN397 dataset."""
-  version = tfds.core.Version("4.0.0")
+  version = tfds.core.Version("4.0.0", "Pictures resized and compressed")
   builder_configs = [
       # Images randomly split into train/valid/test splits (70%/10%/20%), and
       # images resized to have at most 120,000 pixels.

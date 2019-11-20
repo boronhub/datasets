@@ -74,8 +74,6 @@ _DL_URLS = {
 _HIGHLIGHTS = 'highlights'
 _ARTICLE = 'article'
 _SUPPORTED_VERSIONS = [
-    tfds.core.Version('0.0.2', experiments={tfds.core.Experiment.S3: False}),
-    # Same data as 0.0.2
     tfds.core.Version('1.0.0',
                       'New split API (https://tensorflow.org/datasets/splits)')]
 
@@ -98,9 +96,6 @@ class CnnDailymailConfig(tfds.core.BuilderConfig):
         (text) features
       **kwargs: keyword arguments forwarded to super.
     """
-    # Version history:
-    # 1.0.0: S3 (new shuffling, sharding and slicing mechanism).
-    # 0.0.2: Initial version.
     super(CnnDailymailConfig, self).__init__(
         version=_DEFAULT_VERSION,
         supported_versions=_SUPPORTED_VERSIONS,
@@ -279,17 +274,14 @@ class CnnDailymail(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=100,
             gen_kwargs={'files': train_files}),
 
         tfds.core.SplitGenerator(
             name=tfds.Split.VALIDATION,
-            num_shards=10,
             gen_kwargs={'files': _subset_filenames(dl_paths,
                                                    tfds.Split.VALIDATION)}),
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=10,
             gen_kwargs={'files': _subset_filenames(dl_paths,
                                                    tfds.Split.TEST)})
     ]

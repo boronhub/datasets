@@ -85,12 +85,8 @@ class CycleGAN(tfds.core.GeneratorBasedBuilder):
           description=("A dataset consisting of images from two classes A and "
                        "B (For example: horses/zebras, apple/orange,...)"),
           version=tfds.core.Version(
-              "0.1.0", experiments={tfds.core.Experiment.S3: False}),
-          supported_versions=[
-              tfds.core.Version(
-                  "2.0.0",
-                  "New split API (https://tensorflow.org/datasets/splits)"),
-          ],
+              "2.0.0",
+              "New split API (https://tensorflow.org/datasets/splits)"),
           data=config_name,
       ) for config_name in _DATA_OPTIONS
   ]
@@ -124,28 +120,24 @@ class CycleGAN(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name="trainA",
-            num_shards=10,
             gen_kwargs={
                 "path": train_a_path,
                 "label": "A",
             }),
         tfds.core.SplitGenerator(
             name="trainB",
-            num_shards=10,
             gen_kwargs={
                 "path": train_b_path,
                 "label": "B",
             }),
         tfds.core.SplitGenerator(
             name="testA",
-            num_shards=1,
             gen_kwargs={
                 "path": test_a_path,
                 "label": "A",
             }),
         tfds.core.SplitGenerator(
             name="testB",
-            num_shards=1,
             gen_kwargs={
                 "path": test_b_path,
                 "label": "B",

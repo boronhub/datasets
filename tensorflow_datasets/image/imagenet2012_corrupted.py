@@ -94,13 +94,9 @@ class Imagenet2012CorruptedConfig(tfds.core.BuilderConfig):
     self.severity = severity
 
 
-_VERSION = tfds.core.Version(
-    '0.0.1', experiments={tfds.core.Experiment.S3: False})
-_SUPPORTED_VERSIONS = [
-    tfds.core.Version('3.0.1', (
-        'New split API (https://tensorflow.org/datasets/splits); fix colorization (all RGB) and '
-        'format (all jpeg); use TAR_STREAM.')),
-]
+_VERSION = tfds.core.Version('3.0.1', (
+    'New split API (https://tensorflow.org/datasets/splits); fix colorization (all RGB) and '
+    'format (all jpeg); use TAR_STREAM.'))
 
 
 def _make_builder_configs():
@@ -122,7 +118,6 @@ def _make_builder_configs():
           Imagenet2012CorruptedConfig(
               name=name_str,
               version=_VERSION,
-              supported_versions=_SUPPORTED_VERSIONS,
               description=description_str,
               corruption_type=each_corruption,
               severity=each_severity,

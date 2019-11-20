@@ -96,12 +96,8 @@ PNG_IMAGES = ['n02105855_2933.JPEG']
 class Imagenet2012(tfds.core.GeneratorBasedBuilder):
   """Imagenet 2012, aka ILSVRC 2012."""
 
-  VERSION = tfds.core.Version('2.0.1',
-                              experiments={tfds.core.Experiment.S3: False})
-  SUPPORTED_VERSIONS = [
-      tfds.core.Version(
-          '5.0.0', 'New split API (https://tensorflow.org/datasets/splits)'),
-  ]
+  VERSION = tfds.core.Version(
+      '5.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   manual_dir should contain two files: ILSVRC2012_img_train.tar and
@@ -157,14 +153,12 @@ class Imagenet2012(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=1000,  # Ignored when using a version with S3 experiment.
             gen_kwargs={
                 'archive': dl_manager.iter_archive(train_path),
             },
         ),
         tfds.core.SplitGenerator(
             name=tfds.Split.VALIDATION,
-            num_shards=5,  # Ignored when using a version with S3 experiment.
             gen_kwargs={
                 'archive': dl_manager.iter_archive(val_path),
                 'validation_labels': self._get_validation_labels(val_path),
@@ -174,8 +168,6 @@ class Imagenet2012(tfds.core.GeneratorBasedBuilder):
 
   def _fix_image(self, image_fname, image):
     """Fix image color system and format starting from v 3.0.0."""
-    if self.version < '3.0.0':
-      return image
     if image_fname in CMYK_IMAGES:
       image = io.BytesIO(tfds.core.utils.jpeg_cmyk_to_rgb(image.read()))
     elif image_fname in PNG_IMAGES:

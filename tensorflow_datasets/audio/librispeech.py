@@ -153,17 +153,10 @@ def _make_builder_configs():
     for data in _DATA_OPTIONS:
       config = LibrispeechConfig(
           version=tfds.core.Version(
-              "0.0.1", experiments={tfds.core.Experiment.S3: False}),
-          supported_versions=[
-              tfds.core.Version(
-                  "1.0.0",
-                  "New split API (https://tensorflow.org/datasets/splits)"),
-          ],
+              "1.0.0",
+              "New split API (https://tensorflow.org/datasets/splits)"),
           text_encoder_config=text_encoder_config,
           data=data)
-      # Version history:
-      # 1.0.0: S3 (new shuffling, sharding and slicing mechanism).
-      # 0.0.1: Initial version.
       configs.append(config)
   return configs
 
@@ -209,19 +202,16 @@ class Librispeech(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=100,
             gen_kwargs={
                 "dirs": extracted_dirs[tfds.Split.TRAIN],
             }),
         tfds.core.SplitGenerator(
             name=tfds.Split.VALIDATION,
-            num_shards=10,
             gen_kwargs={
                 "dirs": extracted_dirs[tfds.Split.VALIDATION],
             }),
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=10,
             gen_kwargs={
                 "dirs": extracted_dirs[tfds.Split.TEST],
             }),

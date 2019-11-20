@@ -80,12 +80,8 @@ class GrooveConfig(tfds.core.BuilderConfig):
     super(GrooveConfig, self).__init__(
         name="-".join(name_parts),
         version=tfds.core.Version(
-            "1.0.0", experiments={tfds.core.Experiment.S3: False}),
-        supported_versions=[
-            tfds.core.Version(
-                "2.0.0",
-                "New split API (https://tensorflow.org/datasets/splits)"),
-        ],
+            "2.0.0",
+            "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
     self.split_bars = split_bars
     self.include_audio = include_audio
@@ -165,7 +161,6 @@ class Groove(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(  # pylint: disable=g-complex-comprehension
             name=split,
-            num_shards=10 if split == "train" else 1,
             gen_kwargs={"rows": split_rows, "data_dir": data_dir})
         for split, split_rows in rows.items()]
 

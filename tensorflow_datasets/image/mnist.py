@@ -95,11 +95,8 @@ class MNIST(tfds.core.GeneratorBasedBuilder):
   """MNIST."""
   URL = _MNIST_URL
 
-  VERSION = tfds.core.Version("1.0.0",
-                              experiments={tfds.core.Experiment.S3: False})
-  SUPPORTED_VERSIONS = [
-      tfds.core.Version("3.0.0", "S3: www.tensorflow.org/datasets/splits"),
-  ]
+  VERSION = tfds.core.Version(
+      "3.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
     return tfds.core.DatasetInfo(
@@ -131,7 +128,6 @@ class MNIST(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=10,  # Ignored when using a version with S3 experiment.
             gen_kwargs=dict(
                 num_examples=_TRAIN_EXAMPLES,
                 data_path=mnist_files["train_data"],
@@ -139,7 +135,6 @@ class MNIST(tfds.core.GeneratorBasedBuilder):
             )),
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=1,  # Ignored when using a version with S3 experiment.
             gen_kwargs=dict(
                 num_examples=_TEST_EXAMPLES,
                 data_path=mnist_files["test_data"],
@@ -171,9 +166,6 @@ class MNIST(tfds.core.GeneratorBasedBuilder):
 class FashionMNIST(MNIST):
   URL = "http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/"
 
-  VERSION = tfds.core.Version("1.0.0",
-                              experiments={tfds.core.Experiment.S3: False})
-
   # TODO(afrozm): Try to inherit from MNIST's _info and mutate things as needed.
   def _info(self):
     return tfds.core.DatasetInfo(
@@ -200,9 +192,6 @@ class FashionMNIST(MNIST):
 
 class KMNIST(MNIST):
   URL = "http://codh.rois.ac.jp/kmnist/dataset/kmnist/"
-
-  VERSION = tfds.core.Version("1.0.0",
-                              experiments={tfds.core.Experiment.S3: False})
 
   def _info(self):
     return tfds.core.DatasetInfo(
@@ -243,12 +232,8 @@ class EMNISTConfig(tfds.core.BuilderConfig):
     """
     super(EMNISTConfig, self).__init__(
         version=tfds.core.Version(
-            "1.0.1", experiments={tfds.core.Experiment.S3: False}),
-        supported_versions=[
-            tfds.core.Version(
-                "3.0.0",
-                "New split API (https://tensorflow.org/datasets/splits)"),
-        ],
+            "3.0.0",
+            "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
     self.class_number = class_number
     self.train_examples = train_examples
@@ -354,7 +339,6 @@ class EMNIST(MNIST):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=10,
             gen_kwargs=dict(
                 num_examples=self.builder_config.train_examples,
                 data_path=extracted["train_data"],
@@ -362,7 +346,6 @@ class EMNIST(MNIST):
             )),
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=1,
             gen_kwargs=dict(
                 num_examples=self.builder_config.test_examples,
                 data_path=extracted["test_data"],

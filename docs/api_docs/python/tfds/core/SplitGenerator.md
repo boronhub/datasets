@@ -34,7 +34,6 @@ source</a>
 ``` python
 __init__(
     name,
-    num_shards=1,
     gen_kwargs=None
 )
 ```

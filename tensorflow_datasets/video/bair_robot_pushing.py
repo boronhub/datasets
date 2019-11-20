@@ -52,14 +52,8 @@ _CITATION = """\
 class BairRobotPushingSmall(tfds.core.GeneratorBasedBuilder):
   """Robot pushing dataset from BAIR (Small 64x64 version)."""
 
-  VERSION = tfds.core.Version("1.0.0",
-                              experiments={tfds.core.Experiment.S3: False})
-  SUPPORTED_VERSIONS = [
-      tfds.core.Version(
-          "2.0.0", "New split API (https://tensorflow.org/datasets/splits)"),
-  ]
-  # Versions history:
-  # 2.0.0: S3 (new shuffling, sharding and slicing mechanism).
+  VERSION = tfds.core.Version(
+      "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
     # The Bair dataset consist of a sequence of frames (video) with associated
@@ -87,13 +81,11 @@ class BairRobotPushingSmall(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=10,
             gen_kwargs={
                 "filedir": os.path.join(files, "softmotion30_44k", "train"),
             }),
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=4,
             gen_kwargs={
                 "filedir": os.path.join(files, "softmotion30_44k", "test"),
             }),

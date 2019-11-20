@@ -66,12 +66,8 @@ class TedMultiTranslate(tfds.core.GeneratorBasedBuilder):
       tfds.core.BuilderConfig(
           name='plain_text',
           version=tfds.core.Version(
-              '0.0.3', experiments={tfds.core.Experiment.S3: False}),
-          supported_versions=[
-              tfds.core.Version(
-                  '1.0.0',
-                  'New split API (https://tensorflow.org/datasets/splits)'),
-          ],
+              '1.0.0',
+              'New split API (https://tensorflow.org/datasets/splits)'),
           description='Plain text import of multilingual TED talk translations',
       )
   ]
@@ -97,18 +93,15 @@ class TedMultiTranslate(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=1,
             gen_kwargs={
                 'data_file': os.path.join(dl_dir, 'all_talks_train.tsv')
             }),
         tfds.core.SplitGenerator(
             name=tfds.Split.VALIDATION,
-            num_shards=1,
             gen_kwargs={'data_file': os.path.join(dl_dir,
                                                   'all_talks_dev.tsv')}),
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=1,
             gen_kwargs={
                 'data_file': os.path.join(dl_dir, 'all_talks_test.tsv')
             }),

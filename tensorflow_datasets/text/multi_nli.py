@@ -68,12 +68,7 @@ class MultiNLIConfig(tfds.core.BuilderConfig):
     """
     super(MultiNLIConfig, self).__init__(
         version=tfds.core.Version(
-            "0.0.2", experiments={tfds.core.Experiment.S3: False}),
-        supported_versions=[
-            tfds.core.Version(
-                "1.0.0",
-                "New split API (https://tensorflow.org/datasets/splits)"),
-        ],
+            "1.0.0", "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
     self.text_encoder_config = (
         text_encoder_config or tfds.features.text.TextEncoderConfig())
@@ -139,15 +134,12 @@ class MultiNLI(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=10,
             gen_kwargs={"filepath": train_path}),
         tfds.core.SplitGenerator(
             name="validation_matched",
-            num_shards=1,
             gen_kwargs={"filepath": matched_validation_path}),
         tfds.core.SplitGenerator(
             name="validation_mismatched",
-            num_shards=1,
             gen_kwargs={"filepath": mismatched_validation_path}),
     ]
 

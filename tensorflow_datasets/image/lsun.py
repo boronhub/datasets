@@ -71,12 +71,9 @@ class Lsun(tfds.core.GeneratorBasedBuilder):
       tfds.core.BuilderConfig(  # pylint: disable=g-complex-comprehension
           name=category,
           description="Images of category %s" % category,
-          version=tfds.core.Version("0.1.1", {tfds.core.Experiment.S3: False}),
-          supported_versions=[
-              tfds.core.Version(
-                  "3.0.0",
-                  "New split API (https://tensorflow.org/datasets/splits)"),
-          ],
+          version=tfds.core.Version(
+              "3.0.0",
+              "New split API (https://tensorflow.org/datasets/splits)"),
       ) for category in _CATEGORIES
   ]
 
@@ -100,14 +97,12 @@ class Lsun(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=40,
             gen_kwargs={
                 "extracted_dir": extracted_dirs["train"],
                 "file_path": "%s_%s_lmdb" % (self.builder_config.name, "train")
             }),
         tfds.core.SplitGenerator(
             name=tfds.Split.VALIDATION,
-            num_shards=1,
             gen_kwargs={
                 "extracted_dir": extracted_dirs["val"],
                 "file_path": "%s_%s_lmdb" % (self.builder_config.name, "val")

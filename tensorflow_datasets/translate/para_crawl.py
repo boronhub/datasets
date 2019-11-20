@@ -124,11 +124,7 @@ class ParaCrawl(tfds.core.GeneratorBasedBuilder):
       # database. It only indicates the version of the TFDS integration.
       ParaCrawlConfig(  # pylint: disable=g-complex-comprehension
           target_language=target_language,
-          version=tfds.core.Version(
-              "0.1.0", experiments={tfds.core.Experiment.S3: False}),
-          supported_versions=[
-              tfds.core.Version("1.0.0"),
-          ],
+          version=tfds.core.Version("1.0.0"),
       )
       for target_language in _target_languages()
   ]
@@ -156,8 +152,7 @@ class ParaCrawl(tfds.core.GeneratorBasedBuilder):
 
     # Return the single split of the data.
     return [
-        tfds.core.SplitGenerator(
-            name=tfds.Split.TRAIN, num_shards=10, gen_kwargs=data_file)
+        tfds.core.SplitGenerator(name=tfds.Split.TRAIN, gen_kwargs=data_file),
     ]
 
   def _generate_examples(self, data_file):

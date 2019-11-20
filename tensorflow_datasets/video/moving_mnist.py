@@ -55,8 +55,8 @@ for generating training/validation data from the MNIST dataset.
 class MovingMnist(tfds.core.GeneratorBasedBuilder):
   """MovingMnist."""
 
-  VERSION = tfds.core.Version("0.1.0",
-                              experiments={tfds.core.Experiment.S3: False})
+  VERSION = tfds.core.Version(
+      "1.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
     return tfds.core.DatasetInfo(
@@ -79,7 +79,6 @@ class MovingMnist(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TEST,
-            num_shards=5,
             gen_kwargs=dict(data_path=data_path)),
     ]
 

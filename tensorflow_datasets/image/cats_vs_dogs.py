@@ -52,12 +52,8 @@ _NAME_RE = re.compile(r"^PetImages[\\/](Cat|Dog)[\\/]\d+\.jpg$")
 class CatsVsDogs(tfds.core.GeneratorBasedBuilder):
   """Cats vs Dogs."""
 
-  VERSION = tfds.core.Version("2.0.1",
-                              experiments={tfds.core.Experiment.S3: False})
-  SUPPORTED_VERSIONS = [
-      tfds.core.Version(
-          "4.0.0", "New split API (https://tensorflow.org/datasets/splits)"),
-  ]
+  VERSION = tfds.core.Version(
+      "4.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
     return tfds.core.DatasetInfo(
@@ -81,7 +77,6 @@ class CatsVsDogs(tfds.core.GeneratorBasedBuilder):
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
-            num_shards=20,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(path),
             }),
